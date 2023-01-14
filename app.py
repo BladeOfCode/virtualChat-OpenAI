@@ -1,3 +1,4 @@
+# using Flask
 import json
 import os
 import sys
@@ -53,14 +54,14 @@ def exception_handler(exception):
     else:
         print("Unexpected error: ", sys.exc_info()[0])
 
-
+# extract sender
 def extract_sender(req):
     try:
         return req.headers["user_id"]
     except Exception as e:
         exception_handler(e)
 
-
+# replying to sender
 def send_reply(valid: bool, text: str, user_id: str, client: str, sdk: float):
     try:
 
@@ -119,7 +120,7 @@ def send_reply(valid: bool, text: str, user_id: str, client: str, sdk: float):
         traceback.print_exc(file=sys.stdout)
         exception_handler(e)
 
-
+# extracting messages
 def extract_message(req):
     """
     Decrypts the request body, and parses the incoming message
@@ -146,7 +147,7 @@ def extract_message(req):
     return text["messaging"][0]["message_data"]["text"], text["messaging"][0]["message_data"][
         "label"], client, sdk, action_type
 
-
+# sending to dashbot
 def send_to_dashbot(text, user_id, msg_type):
     try:
         payload = {
@@ -167,7 +168,7 @@ def send_to_dashbot(text, user_id, msg_type):
     except Exception as e:
         exception_handler(e)
 
-
+# routing apis
 @app.route('/', methods=['GET'])
 def root():
     return "ok"
