@@ -34,7 +34,7 @@ ban_words = ["nigger", "negro", "nazi", "faggot", "murder", "suicide"]
 # list of banned input words
 c = 'UTF-8'
 
-
+# sending url
 def send(url, headers, payload=None):
     if payload:
         print("sending post to platform: " + str(payload))
@@ -63,7 +63,7 @@ def get_details(api_token, base_url):
     else:
         return {}
 
-
+# main Logic class of Bot
 class BotLogic:
     def __init__(self):
         # Initializing Config Variables
@@ -127,7 +127,7 @@ class BotLogic:
             prompt = f.read()
 
         return prompt.replace("name]", f"{name}]")
-
+# getting recent
     def get_recent(self, user_id: str):
         count = MAX_HISTORY_LENGTH
         ## please don't edit the lines below
@@ -166,7 +166,7 @@ class BotLogic:
                 text_data = ""
 
         return msg_type, text_data
-
+# processing core
     def core(self, req: str, label: str, user_id: str, client: str, sdk: str, action_type: str, api_token: str):
         print(
             "input text: " + req + ", label: " + label + ", user_id: " + user_id + ", client: " + client + ", sdk: " + sdk
@@ -244,7 +244,7 @@ class BotLogic:
         except Exception as e:
             print(f"error - {e}, for {user_id}")
             return False, "Oops, I am feeling a little overwhelmed with messages\nPlease message me later"
-
+# processing via nlpcloud
     def process_via_nlpcloud(self, name, prompt):
         _client = nlpcloud.Client("gpt-j", self.nlp_cloud_token, gpu=True)
         generation = _client.generation(prompt,
@@ -260,7 +260,7 @@ class BotLogic:
         resp = str.strip(generation["generated_text"])
         output = str.replace(resp, f"{name}:", "")
         return output
-
+# processing via local
     def process_via_local(self, req, name, prompt):
         end_sequence = "###\n"
 
